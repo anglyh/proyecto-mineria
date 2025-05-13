@@ -112,62 +112,19 @@ cd ../backend
 npm start
 ```
 
-## Despliegue a Producción
+## Construcción del Frontend para Backend
 
-### Método 1: Despliegue Manual
-
-Para desplegar la aplicación en un servidor de producción, puedes seguir estos pasos:
-
-1. Construye el frontend y cópialo al backend:
+El proyecto incluye un script en el backend para construir el frontend y copiarlo al backend para su despliegue:
 
 ```bash
-# Desde la raíz del proyecto
-cd backend
+# Desde la carpeta backend
 npm run build:ui
 ```
 
-2. Configura las variables de entorno en tu servidor de producción:
-   - `MONGODB_URI`: Conexión a MongoDB Atlas
-   - `PORT`: Puerto para el servidor (por defecto: 3000)
-   - `NODE_ENV`: Establece a "production"
-
-3. Inicia el servidor:
-
-```bash
-npm start
-```
-
-### Método 2: Despliegue en Servicios Cloud
-
-#### Heroku
-
-1. Crea una cuenta en [Heroku](https://www.heroku.com/)
-2. Instala [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-3. Configura un Procfile en la raíz del proyecto:
-
-```
-web: cd backend && npm start
-```
-
-4. Configura las variables de entorno en Heroku:
-
-```bash
-heroku config:set MONGODB_URI=tu_uri_de_mongodb_atlas
-heroku config:set NODE_ENV=production
-```
-
-5. Despliega el proyecto:
-
-```bash
-git add .
-git commit -m "Preparar para despliegue en Heroku"
-heroku create
-git push heroku main
-```
-
-#### Render o Railway
-
-También puedes desplegar fácilmente en servicios como [Render](https://render.com/) o [Railway](https://railway.app/) siguiendo sus guías de despliegue para aplicaciones Node.js y configurando las mismas variables de entorno.
+Este comando:
+1. Elimina la carpeta dist existente en el backend
+2. Cambia al directorio del frontend y ejecuta la construcción
+3. Copia la carpeta dist resultante al backend
 
 ## Funcionamiento del Juego
 
@@ -181,12 +138,6 @@ También puedes desplegar fácilmente en servicios como [Render](https://render.
 
 El sistema viene precargado con preguntas sobre sustancias peligrosas según estándares internacionales de seguridad. Esta información se carga automáticamente en la base de datos la primera vez que se ejecuta la aplicación.
 
-## Contribución
+## Nota Importante
 
-Si deseas contribuir a este proyecto, por favor:
-
-1. Haz un fork del repositorio
-2. Crea una rama para tu característica (`git checkout -b feature/nueva-caracteristica`)
-3. Haz commit de tus cambios (`git commit -m 'Añadir nueva característica'`)
-4. Empuja a la rama (`git push origin feature/nueva-caracteristica`)
-5. Abre un Pull Request 
+Este repositorio sirve como guía de referencia para el desarrollo de aplicaciones educativas sobre seguridad minera. No se aceptarán pull requests. Si deseas adaptarlo a tus necesidades, te recomendamos hacer un fork del proyecto y personalizarlo según tus requerimientos específicos. 
