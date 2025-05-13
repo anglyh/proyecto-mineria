@@ -1,0 +1,31 @@
+.joinWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: min(500px, 90%);
+  margin-top: 6rem;
+}
+
+.joinContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.joinContainer img {
+  height: 200px;
+}
+
+.joinContainer h1 {
+  color: #31363F;
+  font-size: 2rem;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}

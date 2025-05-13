@@ -1,0 +1,24 @@
+.homeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: min(500px, 90%);
+  margin-top: 6rem;
+}
+
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.homeContainer img {
+  height: 200px;
+}
+
+.homeContainer h1 {
+  color: #31363F;
+  font-size: 2.5rem;
+}
