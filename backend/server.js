@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
-const cors = require("cors"); // Importa el paquete cors
+const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -13,16 +13,13 @@ const io = require("socket.io")(http, {
   transports: ["websocket"],
 });
 const mongoose = require("mongoose");
-const path = require("path");
 const { Question, seedQuestions } = require("./models/question.model");
 const Game = require("./models/game.model");
 const questionController = require('./controllers/questionController');
 
-
 app.use(cors());
 
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static('dist'));
 
 app.get('/api/questions', questionController.getAllQuestions);

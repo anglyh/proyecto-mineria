@@ -1,8 +1,6 @@
 import { io } from "socket.io-client";
 
-
-const URL = `${import.meta.env.VITE_SERVER_URL}`; // Cambia el URL si es necesario
-export const socket = io(URL, {
+export const socket = io('/', {
   autoConnect: false,
   transports: ["websocket"], // Forzar WebSocket
 });

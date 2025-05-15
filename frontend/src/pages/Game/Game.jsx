@@ -16,10 +16,11 @@ export default function Game() {
   const [topPictogram, setTopPictogram] = useState(null);
   const [centerCards, setCenterCards] = useState([]);
   const [bottomNumber, setBottomNumber] = useState(null);
-  
+
   const [question, setQuestion] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
-
+  const [visualTimeLeft, setVisualTimeLeft] = useState(null); // Nuevo estado para la cuenta regresiva visual
+  const [loadingNext, setLoadingNext] = useState(false); // Estado para la pantalla de carga
   const [message, setMessage] = useState("");
   const [hasAnswered, setHasAnswered] = useState(false);
 
@@ -30,6 +31,7 @@ export default function Game() {
       if (response.success) {
         setQuestion(response.question);
         setTimeLeft(response.timeLeft);
+        setVisualTimeLeft(response.timeLeft);
       } else {
         console.log(response.error || "Esperando a que el juego inicie");
       }
@@ -38,8 +40,10 @@ export default function Game() {
     socket.on("game-started", ({ question, timeLimit }) => {
       setQuestion(question);
       setTimeLeft(timeLimit);
+      setVisualTimeLeft(timeLimit);
       setHasAnswered(false);
       setMessage("");
+      setLoadingNext(false); 
       resetBoard();
     });
 
@@ -62,7 +66,7 @@ export default function Game() {
     };
   }, [navigate]);
 
-  // Temporizador optimizado
+  // Temporizador para la cuenta regresiva real
   useEffect(() => {
     if (timeLeft === null || hasAnswered) return;
 
@@ -79,6 +83,23 @@ export default function Game() {
 
     return () => clearInterval(timer);
   }, [timeLeft, hasAnswered]);
+
+  // Temporizador para la cuenta regresiva visual (pantalla de carga)
+  useEffect(() => {
+    if (!loadingNext || visualTimeLeft === null) return;
+
+    const visualTimer = setInterval(() => {
+      setVisualTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(visualTimer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(visualTimer);
+  }, [loadingNext, visualTimeLeft]);
 
   const resetBoard = () => {
     setTopPictogram(null);
@@ -108,6 +129,9 @@ export default function Game() {
       number: bottomNumber,
     };
 
+    setLoadingNext(true); // Activa la pantalla de carga
+    setVisualTimeLeft(timeLeft); // Sincroniza la cuenta regresiva visual con la real
+
     socket.emit("submit-answer", { pin, answer, responseTime: timeLeft || 0 }, (response) => {
       if (response.success) {
         setMessage(response.isCorrect ? "¡Respuesta correcta!" : "Respuesta incorrecta.");
@@ -118,6 +142,12 @@ export default function Game() {
 
   return (
     <div className={styles.gameWrapper}>
+      {loadingNext && (
+        <div className={styles.loadingOverlay}>
+          <div className={styles.spinner}></div>
+          <p>Siguiente pregunta en: {visualTimeLeft} segundos</p>
+        </div>
+      )}
       <div className={styles.gameContainer}>
         <div className={styles.questionContainer}>
           <h2>{question ? question.title : "Esperando pregunta..."}</h2>
