@@ -31,7 +31,6 @@ proyecto-mineria/
 │   ├── src/                 # Código fuente
 │       ├── assets/          # Imágenes y recursos
 │       ├── components/      # Componentes React
-│       ├── context/         # Context API de React
 │       ├── hooks/           # Custom hooks
 │       ├── layouts/         # Plantillas de páginas
 │       ├── pages/           # Páginas principales
