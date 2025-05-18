@@ -6,17 +6,16 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/": {
-        // target: 'https://mineriabackend.onrender.com',
-        target: 'http://localhost',
+      // Proxy all requests starting with /api to the backend server
+      '/api': {
+        target: 'http://localhost:80', // Assuming your backend runs on port 80
         changeOrigin: true,
-        ws: true
       },
-      "/api/questions": {
-        // target: 'https://mineriabackend.onrender.com',
-        target: 'http://localhost',
-        changeOrigin: true,
-      }
+      // Proxy WebSocket connections
+      '/socket.io': {
+        target: 'ws://localhost:80', // Assuming your backend runs on port 80
+        ws: true,
+      },
     }
   }
 })
